@@ -3,7 +3,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const BACKEND_URL =
   window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
     ? "http://localhost:4000"
-    : "https://YOUR-BACKEND.onrender.com";
+    : "https://true-soul-admin-backend.onrender.com";
 const FIREBASE_CONFIG = {
   apiKey: "YOUR_FIREBASE_API_KEY",
   authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
