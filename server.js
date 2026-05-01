@@ -1,21 +1,62 @@
 const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
+const fs = require("fs");
+const path = require("path");
 
-const serviceAccount = require("./firebase-service-account.json");
 const SUPABASE_URL =
   process.env.SUPABASE_URL || process.env.TRUECONNECT_SUPABASE_URL || "";
 const SUPABASE_SERVICE_ROLE_KEY =
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
   process.env.TRUECONNECT_SUPABASE_SERVICE_ROLE_KEY ||
   "";
+const FIREBASE_SERVICE_ACCOUNT_JSON =
+  process.env.FIREBASE_SERVICE_ACCOUNT_JSON ||
+  process.env.TRUECONNECT_FIREBASE_SERVICE_ACCOUNT_JSON ||
+  "";
 const VIP_COUPONS_TABLE = "vip_coupons";
 const PROFILES_TABLE = "profiles";
 const AI_RISK_ALERTS_TABLE = "ai_risk_alerts";
+const PORT = process.env.PORT || 4000;
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+function getFirebaseServiceAccount() {
+  if (FIREBASE_SERVICE_ACCOUNT_JSON) {
+    try {
+      return JSON.parse(FIREBASE_SERVICE_ACCOUNT_JSON);
+    } catch (error) {
+      throw new Error("Invalid FIREBASE_SERVICE_ACCOUNT_JSON value");
+    }
+  }
+
+  const localServiceAccountPath = path.join(
+    __dirname,
+    "firebase-service-account.json"
+  );
+
+  if (fs.existsSync(localServiceAccountPath)) {
+    return JSON.parse(fs.readFileSync(localServiceAccountPath, "utf8"));
+  }
+
+  return null;
+}
+
+let firebaseMessagingEnabled = false;
+try {
+  const serviceAccount = getFirebaseServiceAccount();
+  if (serviceAccount) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+    firebaseMessagingEnabled = true;
+    console.log("Firebase Admin initialized");
+  } else {
+    console.warn(
+      "Firebase service account not found. Notification routes will return 503 until configured."
+    );
+  }
+} catch (error) {
+  console.error("Firebase Admin init failed:", error.message);
+}
 
 const app = express();
 app.use(cors());
@@ -258,6 +299,13 @@ app.post("/trust/users/:userId/ban", async (req, res) => {
 
 app.post("/send-support-reply-notification", async (req, res) => {
   try {
+    if (!firebaseMessagingEnabled) {
+      return res.status(503).json({
+        error:
+          "Firebase messaging is not configured. Add FIREBASE_SERVICE_ACCOUNT_JSON in Render environment variables.",
+      });
+    }
+
     const { fcmToken, subject } = req.body;
 
     if (!fcmToken) {
@@ -288,6 +336,13 @@ app.post("/send-support-reply-notification", async (req, res) => {
 
 app.post("/send-message-notification", async (req, res) => {
   try {
+    if (!firebaseMessagingEnabled) {
+      return res.status(503).json({
+        error:
+          "Firebase messaging is not configured. Add FIREBASE_SERVICE_ACCOUNT_JSON in Render environment variables.",
+      });
+    }
+
     const { fcmToken, senderName, matchId, otherUserId } = req.body;
 
     if (!fcmToken) {
@@ -318,6 +373,13 @@ app.post("/send-message-notification", async (req, res) => {
 
 app.post("/send-match-notification", async (req, res) => {
   try {
+    if (!firebaseMessagingEnabled) {
+      return res.status(503).json({
+        error:
+          "Firebase messaging is not configured. Add FIREBASE_SERVICE_ACCOUNT_JSON in Render environment variables.",
+      });
+    }
+
     const { fcmToken, matchedName, otherUserId, matchId } = req.body;
 
     if (!fcmToken) {
@@ -348,6 +410,6 @@ app.post("/send-match-notification", async (req, res) => {
   }
 });
 
-app.listen(4000, () => {
-  console.log("Server running on http://localhost:4000");
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
 });
