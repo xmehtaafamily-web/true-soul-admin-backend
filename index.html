@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueConnect Admin | Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="auth-panel">
+      <div class="brand-lockup">
+        <span class="brand-mark">TC</span>
+        <div>
+          <p class="eyebrow">Admin Console</p>
+          <h1>TrueConnect</h1>
+        </div>
+      </div>
+
+      <div class="auth-copy">
+        <h2>Welcome back</h2>
+        <p>Sign in with your Supabase admin account to review reports, manage users, and keep the community healthy.</p>
+      </div>
+
+      <form id="login-form" class="form-card">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="admin@example.com" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+
+        <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+        <p id="auth-message" class="form-message" role="status"></p>
+      </form>
+    </section>
+
+    <section class="auth-aside" aria-label="Dashboard preview">
+      <div class="preview-card preview-card-large">
+        <div>
+          <span class="metric-label">Open Reports</span>
+          <strong>24</strong>
+        </div>
+        <span class="trend-pill">Needs review</span>
+      </div>
+      <div class="preview-grid">
+        <div class="preview-card">
+          <span class="metric-label">Users</span>
+          <strong>8.4k</strong>
+        </div>
+        <div class="preview-card">
+          <span class="metric-label">Resolved</span>
+          <strong>91%</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

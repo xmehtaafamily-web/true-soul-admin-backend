@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delete Requests - TrueConnect Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1>Delete Account Requests</h1>
+    <div>
+      <a class="nav-btn" href="dashboard.html">Dashboard</a>
+      <a class="nav-btn" href="users.html">Users</a>
+      <a class="nav-btn" href="reports.html">Reports</a>
+      <a class="nav-btn" href="support.html">Support</a>
+      <a class="nav-btn" href="audit-logs.html">Audit Logs</a>
+      <button class="logout-btn" id="logout-button">Logout</button>
+    </div>
+  </div>
+
+  <div class="report-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <div>
+        <h3>All Delete Requests</h3>
+        <p id="delete-summary" style="margin-top:8px;color:#667085;">Loading requests...</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div id="delete-status" class="status-pill">Loading</div>
+        <button class="nav-btn" id="refresh-delete-requests">Refresh</button>
+      </div>
+    </div>
+
+    <div class="toolbar toolbar-spaced">
+      <input id="delete-search" class="toolbar-input" type="search" placeholder="Search by user or reason">
+      <select id="delete-filter-status" class="toolbar-select">
+        <option value="all">All statuses</option>
+        <option value="pending">Pending only</option>
+        <option value="approved">Approved only</option>
+        <option value="rejected">Rejected only</option>
+      </select>
+      <button id="select-all-delete-requests" class="btn btn-secondary" type="button">Select Page</button>
+      <button id="bulk-approve-delete-requests" class="btn btn-primary" type="button">Bulk Approve</button>
+      <button id="bulk-reject-delete-requests" class="btn btn-danger" type="button">Bulk Reject</button>
+      <button id="export-delete-requests" class="btn btn-secondary" type="button">Export CSV</button>
+    </div>
+
+    <div id="delete-requests-list" style="margin-top:20px; display:grid; gap:16px;">
+      <div class="empty-state" style="padding:24px;">Loading requests...</div>
+    </div>
+    <div id="delete-pagination" class="pagination-bar"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

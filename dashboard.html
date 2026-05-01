@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueConnect Admin | Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand-lockup nav-brand" href="dashboard.html">
+        <span class="brand-mark">TC</span>
+        <span>TrueConnect</span>
+      </a>
+      <nav class="nav-list" aria-label="Admin navigation">
+        <a class="nav-link active" href="dashboard.html">Dashboard</a>
+        <a class="nav-link" href="users.html">Users</a>
+        <a class="nav-link" href="reports.html">Reports</a>
+        <a class="nav-link" href="support.html">Support</a>
+        <a class="nav-link" href="delete-requests.html">Delete Requests</a>
+        <a class="nav-link" href="audit-logs.html">Audit Logs</a>
+      </nav>
+      <button id="logout-button" class="btn btn-secondary btn-full">Sign out</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h1>Admin Dashboard</h1>
+          <p>Monitor user activity and moderation volume in one clean workspace.</p>
+        </div>
+        <a class="btn btn-primary" href="support.html">View support</a>
+      </header>
+
+      <section class="stats-grid" aria-label="Dashboard statistics">
+        <article class="stat-card">
+          <span class="stat-icon users-icon">U</span>
+          <div>
+            <p>Total Users</p>
+            <strong id="total-users">--</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon reports-icon">R</span>
+          <div>
+            <p>Total Reports</p>
+            <strong id="total-reports">--</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon alert-icon">O</span>
+          <div>
+            <p>Open Reports</p>
+            <strong id="open-reports">--</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon success-icon">B</span>
+          <div>
+            <p>Blocked Users</p>
+            <strong id="blocked-users">--</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon matches-icon">M</span>
+          <div>
+            <p>Total Matches</p>
+            <strong id="total-matches">--</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon revenue-icon">$</span>
+          <div>
+            <p>Revenue</p>
+            <strong id="total-revenue">--</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="content-card">
+        <div class="section-heading">
+          <div>
+            <h2>Moderation Snapshot</h2>
+            <p>Quick signal for how much attention the community queue needs.</p>
+          </div>
+          <span id="dashboard-status" class="status-pill">Loading</span>
+        </div>
+        <div class="insight-row">
+          <div>
+            <span class="metric-label">Open support tickets</span>
+            <strong id="open-support">--</strong>
+          </div>
+          <div>
+            <span class="metric-label">Pending delete requests</span>
+            <strong id="pending-delete-requests">--</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-card">
+        <div class="section-heading">
+          <div>
+            <h2>Recent Admin Activity</h2>
+            <p>Latest moderation and support actions from this admin panel session history.</p>
+          </div>
+          <button id="clear-activity-log" class="btn btn-secondary">Clear log</button>
+        </div>
+        <div id="activity-log-list" class="activity-list">
+          <div class="empty-state">No admin actions yet.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

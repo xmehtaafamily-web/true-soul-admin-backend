@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueConnect Admin | Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand-lockup nav-brand" href="dashboard.html">
+        <span class="brand-mark">TC</span>
+        <span>TrueConnect</span>
+      </a>
+      <nav class="nav-list" aria-label="Admin navigation">
+        <a class="nav-link" href="dashboard.html">Dashboard</a>
+        <a class="nav-link" href="users.html">Users</a>
+        <a class="nav-link active" href="reports.html">Reports</a>
+        <a class="nav-link" href="support.html">Support</a>
+        <a class="nav-link" href="delete-requests.html">Delete Requests</a>
+        <a class="nav-link" href="audit-logs.html">Audit Logs</a>
+      </nav>
+      <button id="logout-button" class="btn btn-secondary btn-full">Sign out</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Moderation</p>
+          <h1>Reports</h1>
+          <p>Review community reports, block users, and mark issues as resolved.</p>
+        </div>
+        <button id="refresh-reports" class="btn btn-secondary">Refresh</button>
+      </header>
+
+      <section class="content-card">
+        <div class="section-heading">
+          <div>
+            <h2>All Reports</h2>
+            <p id="reports-summary">Loading reports from Supabase.</p>
+          </div>
+          <span id="reports-status" class="status-pill">Loading</span>
+        </div>
+
+        <div class="toolbar">
+          <input id="reports-search" class="toolbar-input" type="search" placeholder="Search by report, user, reason, or reporter">
+          <select id="reports-filter-status" class="toolbar-select">
+            <option value="all">All statuses</option>
+            <option value="open">Open only</option>
+            <option value="resolved">Resolved only</option>
+          </select>
+          <button id="select-all-reports" class="btn btn-secondary" type="button">Select Page</button>
+          <button id="bulk-resolve-reports" class="btn btn-primary" type="button">Bulk Resolve</button>
+          <button id="export-reports" class="btn btn-secondary" type="button">Export CSV</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Report</th>
+                <th>Reported User</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table-body">
+              <tr>
+                <td colspan="7" class="empty-state">Loading reports...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="reports-pagination" class="pagination-bar"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+  <script src="app.js"></script>
+  <div id="user-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="section-heading">
+        <div>
+          <h2>User Details</h2>
+          <p id="user-modal-subtitle">Profile information from Supabase.</p>
+        </div>
+        <button id="close-user-modal" class="btn btn-secondary" type="button">Close</button>
+      </div>
+      <div id="user-modal-content" class="modal-content">
+        <div class="empty-state">Select a user to view details.</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

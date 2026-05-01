@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrueConnect Trust Monitor</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090612;
+      --panel: rgba(20, 18, 35, 0.94);
+      --panel-soft: rgba(30, 25, 48, 0.92);
+      --stroke: rgba(255, 255, 255, 0.08);
+      --text: #f6f2ff;
+      --muted: #b5abc7;
+      --primary: #ff4ca0;
+      --secondary: #7d5cff;
+      --danger: #ff6a7d;
+      --warning: #ffbc58;
+      --success: #5fd48d;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(125, 92, 255, 0.24), transparent 32%),
+        radial-gradient(circle at top right, rgba(255, 76, 160, 0.2), transparent 28%),
+        linear-gradient(180deg, #0b0718 0%, #120925 50%, #090612 100%);
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .shell {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, rgba(67, 132, 255, 0.22), rgba(255, 76, 160, 0.28));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f7f4ff;
+    }
+
+    h1 {
+      margin: 14px 0 8px;
+      font-size: 42px;
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 760px;
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 14px 28px rgba(139, 76, 255, 0.24);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--stroke);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      padding: 20px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 20px;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .panel-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .chip.warning { color: #1f1500; background: var(--warning); }
+    .chip.danger { color: white; background: rgba(255, 106, 125, 0.92); }
+    .chip.success { color: #0a2616; background: var(--success); }
+    .chip.neutral { color: var(--text); background: rgba(255, 255, 255, 0.08); }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .row-actions button {
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .btn-review {
+      background: rgba(255, 188, 88, 0.18);
+      color: #ffd48f;
+      border: 1px solid rgba(255, 188, 88, 0.28);
+    }
+
+    .btn-ban {
+      background: rgba(255, 106, 125, 0.16);
+      color: #ff9cac;
+      border: 1px solid rgba(255, 106, 125, 0.24);
+    }
+
+    .empty-state,
+    .loading-state {
+      padding: 34px 22px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .inline-note {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1080px) {
+      .stats,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div>
+        <div class="badge">Trust + AI Safety Desk</div>
+        <h1>TrueConnect Trust Monitor</h1>
+        <p class="subtitle">
+          Review low trust profiles, AI-generated risk alerts, and take quick moderation action
+          without leaving the admin workspace.
+        </p>
+      </div>
+      <div class="hero-actions">
+        <button class="btn-secondary" id="btnRefresh">Refresh data</button>
+        <button class="btn-primary" id="btnRefreshAll">Reload all signals</button>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-label">Low Trust Users</div>
+        <div class="stat-value" id="statLowTrust">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active AI Alerts</div>
+        <div class="stat-value" id="statAlerts">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Banned Users</div>
+        <div class="stat-value" id="statBanned">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Under Review</div>
+        <div class="stat-value" id="statReview">0</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Low Trust Users</h2>
+            <p class="panel-subtitle">Profiles that need manual moderation attention.</p>
+          </div>
+          <span class="inline-note">Threshold: trust score 45 or lower</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Trust</th>
+                <th>Risk</th>
+                <th>Status</th>
+                <th>Flags</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="lowTrustBody">
+              <tr><td colspan="6" class="loading-state">Loading trust signals...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">AI Risk Alerts</h2>
+            <p class="panel-subtitle">Suspicious patterns surfaced by AI safety checks.</p>
+          </div>
+          <span class="inline-note">Newest alerts on top</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Type</th>
+                <th>Score</th>
+                <th>Summary</th>
+              </tr>
+            </thead>
+            <tbody id="aiAlertsBody">
+              <tr><td colspan="4" class="loading-state">Loading AI alerts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="./trust-monitor.js"></script>
+</body>
+</html>

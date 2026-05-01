@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrueConnect Admin | Audit Logs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <a class="brand-lockup nav-brand" href="dashboard.html">
+        <span class="brand-mark">TC</span>
+        <span>TrueConnect</span>
+      </a>
+      <nav class="nav-list" aria-label="Admin navigation">
+        <a class="nav-link" href="dashboard.html">Dashboard</a>
+        <a class="nav-link" href="users.html">Users</a>
+        <a class="nav-link" href="reports.html">Reports</a>
+        <a class="nav-link" href="support.html">Support</a>
+        <a class="nav-link" href="delete-requests.html">Delete Requests</a>
+        <a class="nav-link active" href="audit-logs.html">Audit Logs</a>
+      </nav>
+      <button id="logout-button" class="btn btn-secondary btn-full">Sign out</button>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Oversight</p>
+          <h1>Audit Logs</h1>
+          <p>Track admin actions, role activity, and operational changes across the moderation surface.</p>
+        </div>
+        <button id="refresh-audit-logs" class="btn btn-secondary">Refresh</button>
+      </header>
+
+      <section class="content-card">
+        <div class="section-heading">
+          <div>
+            <h2>Recent Actions</h2>
+            <p id="audit-summary">Loading audit logs from Supabase.</p>
+          </div>
+          <span id="audit-status" class="status-pill">Loading</span>
+        </div>
+
+        <div class="toolbar">
+          <input id="audit-search" class="toolbar-input" type="search" placeholder="Search by admin, role, action, target, or details">
+          <select id="audit-filter-role" class="toolbar-select">
+            <option value="all">All roles</option>
+            <option value="admin">Admin</option>
+            <option value="moderator">Moderator</option>
+            <option value="support">Support</option>
+          </select>
+          <button id="export-audit-logs" class="btn btn-secondary" type="button">Export CSV</button>
+        </div>
+
+        <div id="audit-log-feed" class="activity-list">
+          <div class="empty-state">Loading audit logs...</div>
+        </div>
+        <div id="audit-pagination" class="pagination-bar"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-auth-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
